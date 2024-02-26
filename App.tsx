@@ -1,118 +1,163 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  View,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
+  StatusBar,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+  Dimensions,
+  PushNotificationIOS,
 } from 'react-native';
+import {useColorScheme} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import PushNotification from 'react-native-push-notification';
+import {firebase} from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database';
+interface Users {
+  key: string;
+}
+const PushNoficationComponent = () => {
+  PushNotification.configure({
+    onNotification: function (notification) {
+      console.log('Nofication:', notification.message);
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    }, // bắt buộc
+    onAction: function (notification) {
+      // opstion
+      console.log('action:', notification.action);
+      console.log('Nofi:', notification);
+      // xử lí actions tại đây
+    },
+    popInitialNotification: true, // bắt buộc
+    requestPermissions: true, //bắt buộc
+  });
+};
+function getChanel_ID(channel_Id: any) {
+  console.log('chanel ID:', channel_Id);
+}
+PushNotification.localNotification({
+  channelId: 'id1',
+  message: 'sản phẩm thử nghiệm push Nofication',
+});
+export default function App() {
+  const [secure, setSecure] = useState(true); // set cho ẩn mật khẩu là true , mặc định là ẩn.
+  const color = useColorScheme();
+  const [users, setUsers] = useState([]);
+  function secureClick() {
+    setSecure(secure == true ? false : true);
+  }
+  function User({userId}) {
+    useEffect(() => {
+      const valueDatabase = database()
+        .app()
+        .ref(`/user/${userId}`)
+        .on('value', snapshot => {
+          console.log('abc:', snapshot.val());
+        });
+      return () =>
+        database().ref(`/user/${userId}`).off('value', valueDatabase);
+    }, [userId]);
+  }
+  useEffect(() => {
+    const userDocs = firestore()
+      .collection('Users')
+      .onSnapshot(querySnapshort => {
+        const updateUsers: Users[] = [];
+        querySnapshort.forEach(docsUser => {
+          console.log(docsUser.data());
+          updateUsers.push({
+            ...docsUser.data(),
+            key: docsUser.id,
+          });
+        });
+        setUsers(updateUsers);
+      });
+    PushNoficationComponent();
+    PushNotification.getChannels(chanelIDs => {
+      getChanel_ID(chanelIDs[0]);
+    });
+    return () => userDocs();
+  }, []);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle={
+          color && color?.toString() === 'light'
+            ? 'dark-content'
+            : 'light-content'
+        }
+        animated={true}
+        backgroundColor={`${color}`}
+      />
+      <Text style={styles.contents}>Hello My friend</Text>
+      <View style={styles.componentfield}>
+        <TextInput
+          style={styles.textinput}
+          testID="useraccount"
+          keyboardType="email-address"
+          placeholder="User-Email"
+          placeholderTextColor={'grey'}></TextInput>
+      </View>
+      <View style={styles.componentfield}>
+        <TextInput
+          style={styles.textinput}
+          placeholder="Password in here"
+          placeholderTextColor={'grey'}
+          secureTextEntry={secure ? true : false}></TextInput>
+        <TouchableOpacity onPress={secureClick}>
+          <Image
+            source={
+              secure
+                ? require('./app/assets/images/view.jpg')
+                : require('./app/assets/images/hide.png')
+            }
+            style={styles.secure}></Image>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={users}
+        keyExtractor={item => item.key}
+        renderItem={({item, index}) => {
+          return (
+            <View key={index}>
+              <Text style={{color: 'black'}}>{item?.id}</Text>
+            </View>
+          );
+        }}></FlatList>
     </View>
   );
 }
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  contents: {
+    color: 'black',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  textinput: {
+    color: 'black',
+    textAlign: 'left',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 'auto',
+    width: '90%',
   },
-  highlight: {
-    fontWeight: '700',
+  componentfield: {
+    width: '90%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  secure: {
+    height: 25,
+    width: 25,
+    marginLeft: -25,
   },
 });
-
-export default App;
