@@ -32,7 +32,7 @@ function RealTimeDatabase() {
     }, [userId]);
   }
   async function name(params: any) {
-    // truy vấn dữ liệu đến dữ liệu
+    // truy vấn dữ liệu
     await database().ref('users').orderByChild('age').startAt(21).once('value');
   }
   // ghi đè dữ liệu hiện có trong database
