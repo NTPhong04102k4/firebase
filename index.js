@@ -15,10 +15,12 @@ PushNotification.configure({
     onNotification: function (notification) {
       console.log('Received Notification:', notification);
       // No need to call notification.finish() for the latest versions
+      
     },
     onAction: function (notification) {
       console.log('ACTION:', notification.action);
       console.log('NOTIFICATION:', notification);
+
     },
     onRegistrationError: function (err) {
       console.error(err.message, err);

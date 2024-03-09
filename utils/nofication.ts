@@ -1,48 +1,64 @@
 import PushNotification, { Importance } from "react-native-push-notification";
+
 const deleteChannelId=(id:number,nameChannel:string)=>PushNotification.deleteChannel(`channelId${id}`)
-
-
-const  PushLocalNotifications=(id:number,title: string,message: string)=>
+const  PushLocalNotifications=(title: string,message: string,soundName:string)=>
+{
+    const createChannel= PushNotification.createChannel({
+        channelId:`channel_Id_1_1`,
+        channelName:'channel_Id_1_1',
+        channelDescription: 'mô tả thông báo',
+        playSound:true,// set up sound for notifications.
+        soundName:soundName,
+        importance:Importance.HIGH,
+        vibrate:true
+    },(create)=>{
+        console.log(`create channel : ${create}`)// nếu channelId đã có thì sẽ trả về false.
+    });
     PushNotification.localNotification({
         title,
         message,
-        soundName:'default',
-        playSound:true,
-        channelId:`channelId${id}`,
-        id
+        playSound: true, // (optional) default: true
+      soundName: soundName, // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+        channelId:`channel_Id_1_1`,
+        vibrate:true,
+        importance:'high',
+        id:(Math.random()*100).toString(),
+        
     })
 
-const CancerAllLocalNotification=PushNotification.cancelAllLocalNotifications();
+}
 
-const localNotificationSchedule = (id:number, title:string, message:string, allowWhileIdle:boolean, repeatTime:number, repeatType:any) => {
-    const validRepeatTypes = ['hour', 'week','time','minute','day'];
-    const formattedRepeatType = repeatType ? (validRepeatTypes.includes(repeatType) ? repeatType : undefined) : undefined;
+    const CancerAllLocalNotification=PushNotification.cancelAllLocalNotifications();
 
-    PushNotification.localNotificationSchedule({
-      title,
-      message,
-      channelId: `channelId${id}`,
-      date: new Date(Date.now() + 1800), // Adjust time as needed
-      allowWhileIdle,
-      repeatTime,
-      repeatType: formattedRepeatType,
-      id,
+    const localNotificationSchedule=PushNotification.localNotificationSchedule({
+      title:'Title:Notifications',
+      message:'Message',
+      channelId: `channel_Id_1`,
+      date: new Date(Date.now() + 2000), // Adjust time as needed
+      allowWhileIdle:true,
+      repeatType: 'hour',
+      soundName: 'hasaki',
+      id:1,
+      vibrate:true,
+      playSound:true,
+      vibration: 300,
+      importance:'high'
     });
-  };
   
-const createChannel=(id:number,nameChannel:string,desc:string ,SoundName:string)=>{
-    PushNotification.createChannel({
-        channelId:`channel_ID_${id}`,
-        channelName:nameChannel,
-        channelDescription: desc,
+  
+
+    const createChannel=PushNotification.createChannel({
+        channelId:`channel_Id_1`,
+        channelName:'channelId_1',
+        channelDescription: 'mô tả thông báo',
         playSound:true,// set up sound for notifications.
-        soundName:SoundName?(SoundName!==""?SoundName:undefined):undefined,// pass file name.mp3 (âm thanh thông báo là âm thanh của file mp3)
+        soundName:'hasaki',
         importance:Importance.HIGH,
         vibrate:true
     },(create)=>{
         console.log(`create channel : ${create}`)// nếu channelId đã có thì sẽ trả về false.
     })
-}
+
 const InitNotifications=()=>
     PushNotification.popInitialNotification((nofications)=>{
         console.log('notificaitons:',nofications);

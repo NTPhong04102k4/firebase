@@ -7,21 +7,13 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   FlatList,
-  Dimensions,
-  PushNotificationIOS,
 } from 'react-native';
 import {useColorScheme} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import PushNotification from 'react-native-push-notification';
-import {firebase} from '@react-native-firebase/firestore';
-import database from '@react-native-firebase/database';
-import {useNavigation} from '@react-navigation/native';
 interface Users {
   key: string;
 }
-
 export default function Home({navigation}: any) {
   const [secure, setSecure] = useState(true); // set cho ẩn mật khẩu là true , mặc định là ẩn.
   const color = useColorScheme();
@@ -77,8 +69,8 @@ export default function Home({navigation}: any) {
           <Image
             source={
               secure
-                ? require('../app/assets/images/view.jpg')
-                : require('../app/assets/images/hide.png')
+                ? require('../src/assets/images/view.jpg')
+                : require('../src/assets/images/hide.png')
             }
             style={styles.secure}></Image>
         </TouchableOpacity>

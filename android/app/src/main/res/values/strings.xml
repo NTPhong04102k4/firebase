@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">FireBase</string>
     <string name="default_notification_channel_id">FireBase</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">DeploymentKey</string>
+    <string name="facebook_app_id">2201090880233604</string>
+    <string name="facebook_client_token">2jmj7l5rSw0yVb/vlWAYkK/YBwk=</string>
+
 </resources>
