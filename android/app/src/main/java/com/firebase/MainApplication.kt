@@ -15,6 +15,8 @@ import io.invertase.firebase.app.ReactNativeFirebaseAppPackage
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.microsoft.codepush.react.CodePush
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 class MainApplication : Application(), ReactApplication {
 

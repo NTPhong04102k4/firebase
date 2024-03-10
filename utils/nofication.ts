@@ -2,18 +2,7 @@ import PushNotification, { Importance } from "react-native-push-notification";
 
 const deleteChannelId=(id:number,nameChannel:string)=>PushNotification.deleteChannel(`channelId${id}`)
 const  PushLocalNotifications=(title: string,message: string,soundName:string)=>
-{
-    const createChannel= PushNotification.createChannel({
-        channelId:`channel_Id_1_1`,
-        channelName:'channel_Id_1_1',
-        channelDescription: 'mô tả thông báo',
-        playSound:true,// set up sound for notifications.
-        soundName:soundName,
-        importance:Importance.HIGH,
-        vibrate:true
-    },(create)=>{
-        console.log(`create channel : ${create}`)// nếu channelId đã có thì sẽ trả về false.
-    });
+
     PushNotification.localNotification({
         title,
         message,
@@ -22,11 +11,11 @@ const  PushLocalNotifications=(title: string,message: string,soundName:string)=>
         channelId:`channel_Id_1_1`,
         vibrate:true,
         importance:'high',
-        id:(Math.random()*100).toString(),
+  
         
     })
 
-}
+
 
     const CancerAllLocalNotification=PushNotification.cancelAllLocalNotifications();
 
@@ -34,10 +23,10 @@ const  PushLocalNotifications=(title: string,message: string,soundName:string)=>
       title:'Title:Notifications',
       message:'Message',
       channelId: `channel_Id_1`,
-      date: new Date(Date.now() + 2000), // Adjust time as needed
+      date: new Date(Date.now() + 600000), // Adjust time as needed
       allowWhileIdle:true,
       repeatType: 'hour',
-      soundName: 'hasaki',
+      soundName: 'hasaki.mp3',
       id:1,
       vibrate:true,
       playSound:true,
@@ -52,7 +41,7 @@ const  PushLocalNotifications=(title: string,message: string,soundName:string)=>
         channelName:'channelId_1',
         channelDescription: 'mô tả thông báo',
         playSound:true,// set up sound for notifications.
-        soundName:'hasaki',
+        soundName:'hasaki.mp3',
         importance:Importance.HIGH,
         vibrate:true
     },(create)=>{

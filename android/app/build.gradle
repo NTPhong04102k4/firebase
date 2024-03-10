@@ -81,6 +81,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
     }
     signingConfigs {
         release {
@@ -91,6 +92,12 @@ android {
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
  
             }
+        }
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
        
     }
@@ -120,7 +127,7 @@ dependencies {
     // Facebook Login only
     implementation 'com.facebook.android:facebook-login:latest.release'
     implementation project(':react-native-fbsdk-next')
-
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     
     if (hermesEnabled.toBoolean()) {
