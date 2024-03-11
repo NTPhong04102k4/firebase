@@ -8,6 +8,7 @@ buildscript {
         kotlinVersion = "1.8.0"
         googlePlayServicesVersion = "+" 
         firebaseMessagingVersion = "21.1.0" 
+        googlePlayServicesAuthVersion = "20.7.0" 
     }
     repositories {
         google()
