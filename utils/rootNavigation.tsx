@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PushNofi from '../screen/pushNofi';
 import Home from '../screen/Home';
-import Login from '../screen/Login.tsx/LoginScreen';
+import Login from '../screen/Login/LoginScreen';
 const RootStack = createNativeStackNavigator();
 
 export default function Stack({}) {

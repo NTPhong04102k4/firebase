@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "364773568221",
+    "firebase_url": "https://testapp-ba20d-default-rtdb.firebaseio.com",
     "project_id": "testapp-ba20d",
     "storage_bucket": "testapp-ba20d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:364773568221:android:6bad0f7437f5d5ad40b534",
+        "mobilesdk_app_id": "1:364773568221:android:2cfdab1102ad4fb940b534",
         "android_client_info": {
           "package_name": "com.firebase"
         }
@@ -15,12 +16,24 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBkOpAZUpCV7aMKTubXGg_ldwgUE2BcHtI"
+          "current_key": "AIzaSyBKxTYFd_FrXcGhvWtvn_PfWgqmCWJY-tU"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364773568221-a6brc0u312250il0pgvoa3g7u0gsiabd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "364773568221-lf0jb11i3b68ifvtullkkp4o9377rkhl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.firebase"
+              }
+            }
+          ]
         }
       }
     }

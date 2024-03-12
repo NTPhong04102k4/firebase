@@ -15,7 +15,14 @@ function PushNofi() {
       <Text>Push Notification Example</Text>
       <TouchableOpacity
         onPress={() =>
-          PushLocalNotifications('Title:HiHiHaha', 'thông báo ', 'mes_mes.mp3')
+          PushLocalNotifications(
+            'SIGN IN',
+            'Succes',
+            'mes_mes.mp3',
+            1,
+            true,
+            true,
+          )
         }
         style={{backgroundColor: 'red', width: '50%', height: 'auto'}}>
         <Text>Send Notification</Text>
