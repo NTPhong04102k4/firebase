@@ -10,6 +10,7 @@ import database from '@react-native-firebase/database';
 import {GoogleSignin,GoogleSigninButton} from '@react-native-google-signin/google-signin';
 database().setPersistenceEnabled(true);
 GoogleSignin.configure({
+  androidId:'364773568221-u2ol6qfb616sb6rlgtqi59kegft82s78.apps.googleusercontent.com',
   iosClientId:'364773568221-lf0jb11i3b68ifvtullkkp4o9377rkhl.apps.googleusercontent.com',
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
