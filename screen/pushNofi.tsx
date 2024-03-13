@@ -5,6 +5,8 @@ import {
   createChannel,
   localNotificationSchedule,
 } from '../utils/nofication';
+import {LoginManager} from 'react-native-fbsdk-next';
+
 function PushNofi() {
   useEffect(() => {
     createChannel;
