@@ -118,6 +118,8 @@ android {
 }
 
 dependencies {
+
+    implementation project(':react-native-vector-icons')
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
@@ -143,3 +145,8 @@ apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+project.ext.vectoricons = [
+    iconFontsDir: "../../../../node_modules/react-native-vector-icons/Fonts",
+    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf' ] // Specify font files
+]
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

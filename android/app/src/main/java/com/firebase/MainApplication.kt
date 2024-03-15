@@ -17,6 +17,7 @@ import com.microsoft.codepush.react.CodePush
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.oblador.vectoricons.VectorIconsPackage;
 
 class MainApplication : Application(), ReactApplication {
 

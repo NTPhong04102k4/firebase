@@ -2,14 +2,11 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {
   PushLocalNotifications,
-  createChannel,
   localNotificationSchedule,
 } from '../utils/nofication';
-import {LoginManager} from 'react-native-fbsdk-next';
 
 function PushNofi() {
   useEffect(() => {
-    createChannel;
     localNotificationSchedule;
   }, []);
   return (

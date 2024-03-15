@@ -1,13 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Stack from './utils/rootNavigation';
-// web 364773568221-a6brc0u312250il0pgvoa3g7u0gsiabd.apps.googleusercontent.com
-//ios
-//android
-export default function App() {
+import {Provider} from 'react-redux';
+import storeDataLogin from './src/redux_toolkit/Store';
+import {useDispatch} from 'react-redux';
+import {readDataObject} from './utils/AsyncStorage';
+import {storeData} from './src/redux_toolkit/features/StoreInforLogin';
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  async function LocalStorage() {
+    var res = await readDataObject(1);
+    dispatch(storeData({...res}));
+    setLoading(false);
+  }
+  useEffect(() => {
+    LocalStorage();
+  }, []);
+
+  if (loading == true) {
+    return <></>;
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack />
+      </NavigationContainer>
+    );
+  }
+};
+export default function AppWrapper() {
   return (
-    <NavigationContainer>
-      <Stack />
-    </NavigationContainer>
+    <Provider store={storeDataLogin}>
+      <App />
+    </Provider>
   );
 }

@@ -1,4 +1,4 @@
-import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const storeDataString = async (value: any, id: number) => {
@@ -12,6 +12,7 @@ const storeDataString = async (value: any, id: number) => {
     try {
       var JSONValue = JSON.stringify(value);
       await AsyncStorage.setItem(`my-key_${id}`, JSONValue);
+      console.log('lưu thành công vào async');
     } catch (error) {
       console.log('error:', error);
     }
@@ -21,6 +22,7 @@ const storeDataString = async (value: any, id: number) => {
       const value = await AsyncStorage.getItem(`my-key_${id}`);
       if (value !== null) {
         console.log('value read data string:', value);
+        return value
       }
     } catch (error) {
       console.log(error);
@@ -39,22 +41,22 @@ const storeDataString = async (value: any, id: number) => {
   const removeItem = async (id: number) => {
     try {
       await AsyncStorage.removeItem(`my-key_${id}`);
-      console.log('xóa dữ liệu async thành công.')
+      readDataObject(id);
     } catch (error) {
       console.log(error);
     }
   };
   const getAllKeys = async () => {
     
-    let  keys = [];
+    let  keys: (Error | null | undefined)[] = [];
     try {
      await AsyncStorage.getAllKeys((key)=>{
-        keys.push(key)
+        console.log('key',key)
      });
     } catch (error) {
       console.log(error);
     }
-    console.log('Done');
+    console.log('Done',keys);
   };
   const multiGetItem=async()=>{
     let ArrayValue;

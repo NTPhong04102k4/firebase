@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PushNofi from '../screen/pushNofi';
 import Home from '../screen/Home';
 import Login from '../screen/Login/LoginScreen';
+import {useSelector} from 'react-redux';
 const RootStack = createNativeStackNavigator();
 
-export default function Stack({}) {
+export default function Stack({initRoute}: any) {
+  const {id, accessToken, userName} = useSelector(state => state.login);
+  const initialRouteName = id ? 'Home' : 'Login';
   return (
     <RootStack.Navigator
-      initialRouteName="Login"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: false}}
+      initialRouteName={initialRouteName}>
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="PushNofi" component={PushNofi} />
       <RootStack.Screen name="Login" component={Login} />

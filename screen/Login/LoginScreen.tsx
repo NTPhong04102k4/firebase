@@ -8,58 +8,118 @@ import {
   StyleSheet,
   Dimensions,
   StatusBar,
-  Button,
+  Platform,
 } from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {
-  storeDataObject,
-  removeItem,
-  getAllKeys,
-} from '../../utils/AsyncStorage';
 import {PushLocalNotifications} from '../../utils/nofication';
-import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
-
-const signInWithGG = async ({navigation}: any) => {
+import {
+  Profile,
+  AccessToken,
+  AuthenticationToken,
+  LoginManager,
+  AuthenticationTokenMap,
+  AccessTokenMap,
+} from 'react-native-fbsdk-next';
+import {CommonActions} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {storeData} from '../../src/redux_toolkit/features/StoreInforLogin';
+import {storeDataObject} from '../../utils/AsyncStorage';
+const signInWithGG = async ({navigation, dispatch}: any) => {
   try {
     await GoogleSignin.hasPlayServices();
     var user = await GoogleSignin.signIn();
-    console.log('data get GG sign In:', user);
-    storeDataObject(user, 1);
-    PushLocalNotifications('Sign In', 'Success', 'mes_mes.mp3', 1, true, true);
+    const profile = user.user;
+    const cp = {
+      userName: profile?.name,
+      id: profile?.id,
+      accessToken: user.idToken,
+      isSignIn: true,
+    };
+    storeDataObject(cp, 1);
+    dispatch(
+      storeData({
+        accessToken: cp.accessToken,
+        userName: cp.userName,
+        isSignIn: cp.isSignIn,
+        id: cp.id,
+      }),
+    );
+
+    setTimeout(() => {
+      PushLocalNotifications('SIGN IN', 'Succes', 'mes_mes.mp3', 1, true, true);
+    }, 1000);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      }),
+    );
   } catch (error) {
     console.log(error);
   }
 };
-const signInWithFacebook = async ({navigation}: any) => {
-  LoginManager.logInWithPermissions(['public_profile']).then(
-    function (result: any) {
-      if (result.isCancelled) {
-        console.log('Login cancelled');
-      } else {
-        AccessToken.getCurrentAccessToken().then(data =>
-          console.log('currentAccessToken:', data?.accessToken),
+const signInWithFacebook = async ({navigation, dispatch}: any) => {
+  try {
+    let result_token: AuthenticationTokenMap | AccessTokenMap | any;
+    const result = await LoginManager.logInWithPermissions(
+      ['public_profile', 'email'],
+      'limited',
+      'my_nonce',
+    );
+    if (Platform.OS === 'ios') {
+      result_token = await AuthenticationToken.getAuthenticationTokenIOS();
+    } else {
+      result_token = await AccessToken.getCurrentAccessToken();
+    }
+
+    Profile.getCurrentProfile().then(function (currentProfile) {
+      if (currentProfile) {
+        const profile = currentProfile;
+        const cp = {
+          userName: profile?.name,
+          id: profile?.userID,
+          accessToken: result_token.accessToken,
+          isSignIn: true,
+        };
+        dispatch(
+          storeData({
+            accessToken: cp.accessToken,
+            userName: cp.userName,
+            isSignIn: cp.isSignIn,
+            id: cp.id,
+          }),
         );
-        console.log(
-          'Login success with permissions: ',
-          result.grantedPermissions.toString(),
-          PushLocalNotifications(
-            'Sign In',
-            'Success',
-            'mes_mes.mp3',
-            1,
-            true,
-            true,
-          ),
-        );
-        navigation.navigate('Home');
+        storeDataObject(cp, 1);
       }
-    },
-    function (error) {
-      console.log('Login fail with error: ' + error);
-    },
-  );
+
+      setTimeout(() => {
+        PushLocalNotifications(
+          'Sign In',
+          'Success',
+          'mes_mes.mp3',
+          1,
+          true,
+          true,
+        );
+      }, 1000);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Home',
+            },
+          ],
+        }),
+      );
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
-function Login() {
+
+function Login({navigation}: any) {
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <StatusBar
@@ -140,7 +200,7 @@ function Login() {
               fontWeight: '500',
               color: 'black',
             }}>
-            {' Hoặc '}
+            {` Hoặc `}
           </Text>
           <View
             style={{
@@ -160,7 +220,12 @@ function Login() {
           }}>
           <TouchableOpacity
             style={{width: 60, height: 60}}
-            onPress={signInWithFacebook}>
+            onPress={() =>
+              signInWithFacebook({
+                navigation,
+                dispatch,
+              })
+            }>
             <Image
               source={require('../../src/assets/images/face.png')}
               style={{width: 60, height: 60, resizeMode: 'center'}}
@@ -168,7 +233,12 @@ function Login() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{width: 60, height: 60}}
-            onPress={signInWithGG}>
+            onPress={() => {
+              signInWithGG({
+                navigation,
+                dispatch,
+              });
+            }}>
             <Image
               source={require('../../src/assets/images/image-removebg-preview.png')}
               style={{width: 60, height: 60, resizeMode: 'center'}}
@@ -214,4 +284,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
 export default Login;
