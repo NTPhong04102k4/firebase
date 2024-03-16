@@ -12,7 +12,7 @@ export default function Stack({initRoute}: any) {
   return (
     <RootStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={initialRouteName}>
+      initialRouteName={'PushNofi'}>
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="PushNofi" component={PushNofi} />
       <RootStack.Screen name="Login" component={Login} />

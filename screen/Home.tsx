@@ -5,7 +5,6 @@ import {LoginManager} from 'react-native-fbsdk-next';
 import {CommonActions} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteData} from '../src/redux_toolkit/features/StoreInforLogin';
-
 const signOutGG = async () => {
   await GoogleSignin.signOut();
 };
@@ -67,6 +66,5 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
   },
 });
