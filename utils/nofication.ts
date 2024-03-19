@@ -1,8 +1,5 @@
-import { ReactNode, ReactPropTypes } from "react";
 import PushNotification, { Importance }  from "react-native-push-notification";
 
-
- 
 const deleteChannelId=(id:number,nameChannel:string)=>PushNotification.deleteChannel(`channelId${id}`)
 
 const  PushLocalNotifications=( 

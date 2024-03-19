@@ -130,6 +130,8 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:latest.release'
     implementation project(':react-native-fbsdk-next')
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation project(':@react-native-voice_voice')
+
 
     
     if (hermesEnabled.toBoolean()) {
@@ -147,6 +149,6 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 project.ext.vectoricons = [
     iconFontsDir: "../../../../node_modules/react-native-vector-icons/Fonts",
-    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf' ] // Specify font files
+    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf','AntDesign.ttf','Ionicons.ttf' ] // Specify font files
 ]
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

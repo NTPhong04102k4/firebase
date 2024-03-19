@@ -4,6 +4,7 @@ import PushNofi from '../screen/pushNofi';
 import Home from '../screen/Home';
 import Login from '../screen/Login/LoginScreen';
 import {useSelector} from 'react-redux';
+import SpeechRecognitionScreen from '../screen/Login/Speech';
 const RootStack = createNativeStackNavigator();
 
 export default function Stack({initRoute}: any) {
@@ -12,10 +13,14 @@ export default function Stack({initRoute}: any) {
   return (
     <RootStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={initialRouteName}>
+      initialRouteName={'SpeechRecognitionScreen'}>
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="PushNofi" component={PushNofi} />
       <RootStack.Screen name="Login" component={Login} />
+      <RootStack.Screen
+        name="SpeechRecognitionScreen"
+        component={SpeechRecognitionScreen}
+      />
     </RootStack.Navigator>
   );
 }
